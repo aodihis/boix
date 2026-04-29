@@ -1,9 +1,13 @@
 import os
+import sys
+from pathlib import Path
 from flask import Flask, g
 import psycopg2
 from dotenv import load_dotenv
 
-load_dotenv()
+# Ensure viewer/ is on sys.path so `from api.routes import ...` resolves
+sys.path.insert(0, str(Path(__file__).parent.parent))
+load_dotenv(dotenv_path=Path(__file__).parent.parent / ".env")
 
 
 def get_db() -> psycopg2.extensions.connection:
@@ -21,8 +25,19 @@ def get_db() -> psycopg2.extensions.connection:
 def create_app() -> Flask:
     app = Flask(__name__, template_folder="../templates")
 
+    @app.before_request
+    def open_db() -> None:
+        if "db" not in g:
+            g.db = psycopg2.connect(
+                host=os.environ["DB_HOST"],
+                port=os.environ.get("DB_PORT", "5432"),
+                dbname=os.environ["DB_NAME"],
+                user=os.environ["DB_USER"],
+                password=os.environ["DB_PASSWORD"],
+            )
+
     @app.teardown_appcontext
-    def close_db(e=None):
+    def close_db(e: object = None) -> None:
         db = g.pop("db", None)
         if db is not None:
             db.close()

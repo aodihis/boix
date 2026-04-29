@@ -10,8 +10,8 @@ def run_stubs() -> None:
     fm_port = int(os.environ.get("FM_STUB_PORT", "5001"))
     craft_port = int(os.environ.get("CRAFT_STUB_PORT", "5002"))
 
-    from core.stubs.filemaker_stub import app as fm_app
-    from core.stubs.craftcms_stub import app as craft_app
+    from stubs.filemaker_stub import app as fm_app
+    from stubs.craftcms_stub import app as craft_app
 
     fm_thread = threading.Thread(
         target=lambda: fm_app.run(port=fm_port, use_reloader=False),

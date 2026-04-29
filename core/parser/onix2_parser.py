@@ -5,8 +5,8 @@ from typing import Optional
 
 from lxml import etree
 
-from core.parser.codelists import code_to_label
-from core.parser.models import Book, Contributor, Feed, Price, Subject
+from parser.codelists import code_to_label
+from parser.models import Book, Contributor, Feed, Price, Subject
 
 
 def _child_text(elem: etree._Element, tag: str) -> Optional[str]:
@@ -327,7 +327,7 @@ def parse_onix2(file_path: str) -> tuple[Feed, list[Book]]:
             elem.clear()
             continue
 
-    from core.parser.detect import detect_onix_version
+    from parser.detect import detect_onix_version
 
     version = detect_onix_version(file_path)
     feed = Feed(

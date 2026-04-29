@@ -5,8 +5,8 @@ from typing import Optional
 
 from lxml import etree
 
-from core.parser.codelists import code_to_label
-from core.parser.models import Book, Contributor, Feed, Price, Subject
+from parser.codelists import code_to_label
+from parser.models import Book, Contributor, Feed, Price, Subject
 
 # Known ONIX 3.x reference-name namespaces
 _ONIX3_NAMESPACES = {
@@ -15,8 +15,11 @@ _ONIX3_NAMESPACES = {
 }
 
 
-def _strip_ns(tag: str) -> str:
-    """Strips Clark-notation namespace from an element tag."""
+def _strip_ns(tag: object) -> str:
+    """Strips Clark-notation namespace from an element tag.
+    lxml comment/PI nodes have callable tags — treat those as empty."""
+    if not isinstance(tag, str):
+        return ""
     if tag and tag[0] == "{":
         return tag.split("}", 1)[1]
     return tag
@@ -25,7 +28,9 @@ def _strip_ns(tag: str) -> str:
 def _detect_ns(root: etree._Element) -> str:
     """Returns namespace URI if present, empty string otherwise."""
     tag = root.tag
-    if tag and tag[0] == "{":
+    if not isinstance(tag, str):
+        return ""
+    if tag[0] == "{":
         return tag.split("}", 1)[0][1:]
     return ""
 
@@ -546,7 +551,7 @@ def parse_onix3(file_path: str) -> tuple[Feed, list[Book]]:
             elem.clear()
 
     # Build Feed — detect version from file (first 512 bytes)
-    from core.parser.detect import detect_onix_version
+    from parser.detect import detect_onix_version
 
     version = detect_onix_version(file_path)
     import os
