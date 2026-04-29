@@ -2,6 +2,8 @@
 core/venv/
 viewer/venv/
 
+.claude/settings.json
+
 # Environment files
 .env
 .env.local
