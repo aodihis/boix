@@ -35,7 +35,7 @@
         <p><strong>All Identifiers:</strong></p>
         <ul class="list-unstyled">
             {% for identifier in book.identifiers %}
-            <li>{{ identifier.type }}: {{ identifier.value }}</li>
+            <li>{{ identifier.id_type_code }}: {{ identifier.id_value }}</li>
             {% endfor %}
         </ul>
         {% endif %}
@@ -117,7 +117,7 @@
         <p><strong>All Languages:</strong></p>
         <ul class="list-unstyled">
             {% for lang in book.languages %}
-            <li>{{ lang.language_code }}{% if lang.role %} ({{ lang.role }}){% endif %}</li>
+            <li>{{ lang.language_code }}{% if lang.language_role_code %} (role {{ lang.language_role_code }}){% endif %}</li>
             {% endfor %}
         </ul>
         {% endif %}
@@ -160,7 +160,10 @@
                 {% for contrib in contributors %}
                 <tr>
                     <td>{{ contrib.sequence_number or '—' }}</td>
-                    <td>{{ contrib.display_name or '—' }}</td>
+                    <td>
+                        {%- set full = ([contrib.names_before_key, contrib.key_names] | select | join(' ')) -%}
+                        {{ contrib.display_name or full or '—' }}
+                    </td>
                     <td>{{ contrib.role or '—' }}</td>
                     <td>{{ contrib.inverted_name or '—' }}</td>
                     <td>
@@ -271,14 +274,13 @@
         <div class="row">
             {% for media in book.media %}
             <div class="col-md-3 mb-3">
-                {% if media.type and media.type.lower() in ['cover', 'image', 'jpg', 'jpeg', 'png'] %}
+                {% if media.resource_type_code == '01' %}
                     <div class="text-center">
-                        <img src="{{ media.url }}" alt="{{ media.caption or 'Media' }}" style="max-width: 120px; max-height: 180px;">
-                        {% if media.caption %}<p class="small mt-2">{{ media.caption }}</p>{% endif %}
+                        <img src="{{ media.resource_link }}" alt="Cover" style="max-width: 120px; max-height: 180px;" onerror="this.style.display='none'">
+                        <p class="small mt-2">Cover ({{ media.resource_type_code }})</p>
                     </div>
                 {% else %}
-                    <p><a href="{{ media.url }}" target="_blank">{{ media.type or 'Media' }}</a></p>
-                    {% if media.caption %}<small class="text-muted">{{ media.caption }}</small>{% endif %}
+                    <p><a href="{{ media.resource_link }}" target="_blank">Resource {{ media.resource_type_code or '?' }}</a></p>
                 {% endif %}
             </div>
             {% endfor %}
@@ -294,17 +296,18 @@
         <h5 class="mb-0">Texts</h5>
     </div>
     <div class="card-body">
-        <div class="accordion">
+        <div class="accordion" id="texts-accordion">
             {% for text in book.texts %}
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#text-{{ loop.index }}">
-                        {{ text.text_type or 'Text' }}
+                        {{ text.text_type or text.text_type_code or 'Text' }}{% if text.source_title %} — {{ text.source_title }}{% endif %}
+                        {% if text.content_audience %}<small class="text-muted ms-2">({{ text.content_audience }})</small>{% endif %}
                     </button>
                 </h2>
-                <div id="text-{{ loop.index }}" class="accordion-collapse collapse" data-bs-parent=".accordion">
+                <div id="text-{{ loop.index }}" class="accordion-collapse collapse" data-bs-parent="#texts-accordion">
                     <div class="accordion-body">
-                        <pre class="mb-0">{{ text.content }}</pre>
+                        <pre class="mb-0 text-wrap">{{ text.text_value }}</pre>
                     </div>
                 </div>
             </div>

@@ -7,6 +7,7 @@ from lxml import etree
 
 from parser.codelists import code_to_label
 from parser.models import Book, Contributor, Feed, Price, Subject
+from parser.shorttags import normalize_elem_tree, normalize_tag
 
 
 def _child_text(elem: etree._Element, tag: str) -> Optional[str]:
@@ -306,22 +307,25 @@ def parse_onix2(file_path: str) -> tuple[Feed, list[Book]]:
     context = etree.iterparse(file_path, events=("end",), recover=True)
 
     for event, elem in context:
-        tag = elem.tag
+        tag = normalize_tag(elem.tag) if isinstance(elem.tag, str) else ""
 
         if tag == "Header":
+            normalize_elem_tree(elem)
             sender = elem.find("Sender")
             if sender is not None:
                 feed_meta["sender_name"] = _child_text(sender, "SenderName")
                 feed_meta["sender_email"] = _child_text(sender, "EmailAddress")
             else:
-                feed_meta["sender_name"] = _child_text(elem, "FromCompany")
-                feed_meta["sender_email"] = _child_text(elem, "FromEmail")
+                # Reference format uses FromCompany/FromEmail; short tags normalize to SenderName/EmailAddress
+                feed_meta["sender_name"] = _child_text(elem, "FromCompany") or _child_text(elem, "SenderName")
+                feed_meta["sender_email"] = _child_text(elem, "FromEmail") or _child_text(elem, "EmailAddress")
             sent = _child_text(elem, "SentDate") or _child_text(elem, "SentDateTime")
             feed_meta["sent_at"] = sent
             elem.clear()
             continue
 
         if tag == "Product":
+            normalize_elem_tree(elem)
             book = _parse_product2(elem)
             books.append(book)
             elem.clear()

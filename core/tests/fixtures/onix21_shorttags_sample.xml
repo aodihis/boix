@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ONIXmessage release="2.1">
+  <header>
+    <x298>Test Publisher</x298>
+    <j272>feed@testpublisher.com</j272>
+    <x307>20240115</x307>
+  </header>
+
+  <!-- ONIX 2.1 with short tags — compound elements use lowercase names,
+       data elements use codes shared with ONIX 3.x where applicable -->
+  <product>
+    <a001>TEST-BOOK-001</a001>
+    <a002>03</a002>
+    <productidentifier>
+      <b221>15</b221>
+      <b244>9780000000001</b244>
+    </productidentifier>
+    <title>
+      <b202>01</b202>
+      <b203>The Great Test Book</b203>
+    </title>
+    <contributor>
+      <b034>1</b034>
+      <b035>A01</b035>
+      <b039>Jane</b039>
+      <b040>Smith</b040>
+      <b037>Smith, Jane</b037>
+    </contributor>
+    <b067>FIC000000</b067>
+    <publisher>
+      <b081>Test Publishing House</b081>
+    </publisher>
+    <b394>04</b394>
+    <supplydetail>
+      <j137>Test Distributor</j137>
+      <j292>01</j292>
+      <j396>20</j396>
+      <price>
+        <j148>01</j148>
+        <j151>24.99</j151>
+        <j152>USD</j152>
+      </price>
+    </supplydetail>
+  </product>
+
+</ONIXmessage>

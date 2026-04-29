@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ONIXmessage release="3.0" xmlns="http://ns.editeur.org/onix/3.0/short">
+  <header>
+    <sender>
+      <x298>Test Publisher</x298>
+      <j272>feed@testpublisher.com</j272>
+    </sender>
+    <x307>20240115T120000</x307>
+  </header>
+
+  <!-- Book 1: Full record using short tags -->
+  <product>
+    <a001>TEST-BOOK-001</a001>
+    <a002>03</a002>
+    <productidentifier>
+      <b221>15</b221>
+      <b244>9780000000001</b244>
+    </productidentifier>
+    <descriptivedetail>
+      <x314>00</x314>
+      <b012>BC</b012>
+      <titledetail>
+        <b202>01</b202>
+        <titleelement>
+          <x409>01</x409>
+          <b031>The Great Test Book</b031>
+          <b029>A Complete Guide to Testing</b029>
+        </titleelement>
+      </titledetail>
+      <contributor>
+        <b034>1</b034>
+        <b035>A01</b035>
+        <b039>Jane</b039>
+        <b040>Smith</b040>
+        <b037>Smith, Jane</b037>
+        <b044>Jane Smith is a test author.</b044>
+      </contributor>
+      <language>
+        <b253>01</b253>
+        <b252>eng</b252>
+      </language>
+      <extent>
+        <b218>00</b218>
+        <b219>320</b219>
+        <b220>03</b220>
+      </extent>
+      <subject>
+        <x425/>
+        <b067>10</b067>
+        <b069>FIC000000</b069>
+        <b070>FICTION / General</b070>
+      </subject>
+    </descriptivedetail>
+    <collateraldetail>
+      <textcontent>
+        <x426>03</x426>
+        <x427>00</x427>
+        <d104>This is a full description of the test book. It covers many topics.</d104>
+      </textcontent>
+      <supportingresource>
+        <x436>01</x436>
+        <x427>00</x427>
+        <x437>03</x437>
+        <resourceversion>
+          <x441>02</x441>
+          <x435>https://example.com/covers/9780000000001.jpg</x435>
+        </resourceversion>
+      </supportingresource>
+    </collateraldetail>
+    <publishingdetail>
+      <publisher>
+        <b291>01</b291>
+        <b081>Test Publishing House</b081>
+      </publisher>
+      <b394>04</b394>
+      <publishingdate>
+        <x448>01</x448>
+        <b306 dateformat="00">20240301</b306>
+      </publishingdate>
+    </publishingdetail>
+    <productsupply>
+      <supplydetail>
+        <supplier>
+          <j292>01</j292>
+          <j137>Test Distributor</j137>
+        </supplier>
+        <j396>20</j396>
+        <price>
+          <x462>01</x462>
+          <j151>24.99</j151>
+          <j152>USD</j152>
+        </price>
+      </supplydetail>
+    </productsupply>
+  </product>
+
+  <!-- Book 2: Minimal record using short tags -->
+  <product>
+    <a001>TEST-BOOK-002</a001>
+    <a002>03</a002>
+    <productidentifier>
+      <b221>15</b221>
+      <b244>9780000000002</b244>
+    </productidentifier>
+    <descriptivedetail>
+      <x314>00</x314>
+      <b012>BC</b012>
+      <titledetail>
+        <b202>01</b202>
+        <titleelement>
+          <x409>01</x409>
+          <b031>Minimal Test Book</b031>
+        </titleelement>
+      </titledetail>
+    </descriptivedetail>
+    <publishingdetail>
+      <publisher>
+        <b291>01</b291>
+        <b081>Test Publishing House</b081>
+      </publisher>
+      <b394>04</b394>
+    </publishingdetail>
+  </product>
+
+</ONIXmessage>

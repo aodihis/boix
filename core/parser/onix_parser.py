@@ -7,22 +7,16 @@ from lxml import etree
 
 from parser.codelists import code_to_label
 from parser.models import Book, Contributor, Feed, Price, Subject
-
-# Known ONIX 3.x reference-name namespaces
-_ONIX3_NAMESPACES = {
-    "http://ns.editeur.org/onix/3.0/reference",
-    "http://ns.editeur.org/onix/3.1/reference",
-}
+from parser.shorttags import normalize_tag
 
 
 def _strip_ns(tag: object) -> str:
-    """Strips Clark-notation namespace from an element tag.
+    """Strips Clark-notation namespace and normalizes ONIX short tags to reference names.
     lxml comment/PI nodes have callable tags — treat those as empty."""
     if not isinstance(tag, str):
         return ""
-    if tag and tag[0] == "{":
-        return tag.split("}", 1)[1]
-    return tag
+    local = tag.split("}", 1)[1] if tag and tag[0] == "{" else tag
+    return normalize_tag(local)
 
 
 def _detect_ns(root: etree._Element) -> str:
@@ -74,8 +68,8 @@ def _parse_header(header_elem: etree._Element) -> dict:
             sender = child
             break
 
-    sender_name = _child_text(sender, "SenderName", "") if sender else None
-    sender_email = _child_text(sender, "EmailAddress", "") if sender else None
+    sender_name = _child_text(sender, "SenderName", "") if sender is not None else None
+    sender_email = _child_text(sender, "EmailAddress", "") if sender is not None else None
     sent_at_raw = _child_text(header_elem, "SentDateTime", "")
 
     return {
@@ -297,9 +291,13 @@ def _parse_collateral_detail(cd: etree._Element, book: Book) -> None:
         raw_text = etree.tostring(text_elem, encoding="unicode", method="text").strip()
         fmt = text_elem.get("textformat")
         source_title = _child_text(tc, "SourceTitle", "")
+        content_audience_code = _child_text(tc, "ContentAudience", "")
         texts.append(
             {
                 "text_type_code": text_type,
+                "text_type": code_to_label("text_type", text_type) if text_type else None,
+                "content_audience_code": content_audience_code,
+                "content_audience": code_to_label("content_audience", content_audience_code) if content_audience_code else None,
                 "text_value": raw_text,
                 "textformat": fmt,
                 "source_title": source_title,

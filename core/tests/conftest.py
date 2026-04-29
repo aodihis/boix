@@ -25,6 +25,16 @@ def onix21_path() -> str:
     return str(FIXTURES_DIR / "onix21_sample.xml")
 
 
+@pytest.fixture
+def onix3_shorttags_path() -> str:
+    return str(FIXTURES_DIR / "onix3_shorttags_sample.xml")
+
+
+@pytest.fixture
+def onix21_shorttags_path() -> str:
+    return str(FIXTURES_DIR / "onix21_shorttags_sample.xml")
+
+
 @pytest.fixture(scope="session")
 def db_conn():
     if not os.environ.get("DB_HOST"):
