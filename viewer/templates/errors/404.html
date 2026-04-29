@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Book Not Found - ONIX Book Viewer{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Book Not Found</h4>
+            <p>The book you're looking for does not exist in the database.</p>
+            <hr>
+            <p class="mb-0"><a href="{{ url_for('routes.books_list') }}" class="alert-link">← Back to book list</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Book List - ONIX Book Viewer{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1>Books</h1>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <input type="text"
+               name="q"
+               class="form-control"
+               placeholder="Search by title, ISBN, or publisher..."
+               value="{{ search_query or '' }}"
+               hx-get="{{ url_for('books.api_search') }}"
+               hx-trigger="keyup changed delay:300ms"
+               hx-target="#book-table-body"
+               hx-swap="innerHTML">
+    </div>
+</div>
+
+{% if books or search_query %}
+<div class="row mb-2">
+    <div class="col-md-12">
+        <small class="text-muted">
+            {% set start = (page - 1) * 20 + 1 %}
+            {% set end = [page * 20, total] | min %}
+            Showing {{ start }}–{{ end }} of {{ total }} books
+        </small>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-12">
+        <table class="table table-sm table-striped table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>ISBN-13</th>
+                    <th>Title</th>
+                    <th>Publisher</th>
+                    <th>Pub Date</th>
+                    <th>Format</th>
+                    <th>Status</th>
+                    <th>Updated</th>
+                </tr>
+            </thead>
+            <tbody id="book-table-body">
+                {% include 'partials/book_rows.html' %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item {% if page <= 1 %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('books.list_books_view', page=page-1, q=search_query or '') }}">Previous</a>
+                </li>
+                <li class="page-item active">
+                    <span class="page-link">Page {{ page }} of {{ pages }}</span>
+                </li>
+                <li class="page-item {% if page >= pages %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('books.list_books_view', page=page+1, q=search_query or '') }}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-info">
+    No books in database yet.
+</div>
+{% endif %}
+{% endblock %}

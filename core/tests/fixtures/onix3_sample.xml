@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ONIXMessage release="3.0" xmlns="http://ns.editeur.org/onix/3.0/reference">
+  <Header>
+    <Sender>
+      <SenderName>Test Publisher</SenderName>
+      <EmailAddress>feed@testpublisher.com</EmailAddress>
+    </Sender>
+    <SentDateTime>20240115T120000</SentDateTime>
+  </Header>
+
+  <!-- Book 1: Full record -->
+  <Product>
+    <RecordReference>TEST-BOOK-001</RecordReference>
+    <NotificationType>03</NotificationType>
+    <ProductIdentifier>
+      <ProductIDType>15</ProductIDType>
+      <IDValue>9780000000001</IDValue>
+    </ProductIdentifier>
+    <DescriptiveDetail>
+      <ProductComposition>00</ProductComposition>
+      <ProductForm>BC</ProductForm>
+      <TitleDetail>
+        <TitleType>01</TitleType>
+        <TitleElement>
+          <TitleElementLevel>01</TitleElementLevel>
+          <TitleWithoutPrefix>The Great Test Book</TitleWithoutPrefix>
+          <Subtitle>A Complete Guide to Testing</Subtitle>
+        </TitleElement>
+      </TitleDetail>
+      <Contributor>
+        <SequenceNumber>1</SequenceNumber>
+        <ContributorRole>A01</ContributorRole>
+        <NamesBeforeKey>Jane</NamesBeforeKey>
+        <KeyNames>Smith</KeyNames>
+        <PersonNameInverted>Smith, Jane</PersonNameInverted>
+        <BiographicalNote>Jane Smith is a test author.</BiographicalNote>
+      </Contributor>
+      <Language>
+        <LanguageRole>01</LanguageRole>
+        <LanguageCode>eng</LanguageCode>
+      </Language>
+      <Extent>
+        <ExtentType>00</ExtentType>
+        <ExtentValue>320</ExtentValue>
+        <ExtentUnit>03</ExtentUnit>
+      </Extent>
+      <Subject>
+        <MainSubject/>
+        <SubjectSchemeIdentifier>10</SubjectSchemeIdentifier>
+        <SubjectCode>FIC000000</SubjectCode>
+        <SubjectHeadingText>FICTION / General</SubjectHeadingText>
+      </Subject>
+    </DescriptiveDetail>
+    <CollateralDetail>
+      <TextContent>
+        <TextType>03</TextType>
+        <ContentAudience>00</ContentAudience>
+        <Text>This is a full description of the test book. It covers many topics.</Text>
+      </TextContent>
+      <SupportingResource>
+        <ResourceContentType>01</ResourceContentType>
+        <ContentAudience>00</ContentAudience>
+        <ResourceMode>03</ResourceMode>
+        <ResourceVersion>
+          <ResourceForm>02</ResourceForm>
+          <ResourceLink>https://example.com/covers/9780000000001.jpg</ResourceLink>
+        </ResourceVersion>
+      </SupportingResource>
+    </CollateralDetail>
+    <PublishingDetail>
+      <Publisher>
+        <PublishingRole>01</PublishingRole>
+        <PublisherName>Test Publishing House</PublisherName>
+      </Publisher>
+      <PublishingStatus>04</PublishingStatus>
+      <PublishingDate>
+        <PublishingDateRole>01</PublishingDateRole>
+        <Date>20240301</Date>
+      </PublishingDate>
+    </PublishingDetail>
+    <ProductSupply>
+      <SupplyDetail>
+        <Supplier>
+          <SupplierRole>01</SupplierRole>
+          <SupplierName>Test Distributor</SupplierName>
+        </Supplier>
+        <ProductAvailability>20</ProductAvailability>
+        <Price>
+          <PriceType>01</PriceType>
+          <PriceAmount>24.99</PriceAmount>
+          <CurrencyCode>USD</CurrencyCode>
+        </Price>
+      </SupplyDetail>
+    </ProductSupply>
+  </Product>
+
+  <!-- Book 2: Minimal record -->
+  <Product>
+    <RecordReference>TEST-BOOK-002</RecordReference>
+    <NotificationType>03</NotificationType>
+    <ProductIdentifier>
+      <ProductIDType>15</ProductIDType>
+      <IDValue>9780000000002</IDValue>
+    </ProductIdentifier>
+    <DescriptiveDetail>
+      <ProductComposition>00</ProductComposition>
+      <ProductForm>BC</ProductForm>
+      <TitleDetail>
+        <TitleType>01</TitleType>
+        <TitleElement>
+          <TitleElementLevel>01</TitleElementLevel>
+          <TitleWithoutPrefix>Minimal Test Book</TitleWithoutPrefix>
+        </TitleElement>
+      </TitleDetail>
+    </DescriptiveDetail>
+    <PublishingDetail>
+      <Publisher>
+        <PublishingRole>01</PublishingRole>
+        <PublisherName>Test Publishing House</PublisherName>
+      </Publisher>
+      <PublishingStatus>04</PublishingStatus>
+    </PublishingDetail>
+  </Product>
+
+</ONIXMessage>

@@ -1,0 +1,35 @@
+# Virtual environments
+core/venv/
+viewer/venv/
+
+# Environment files
+.env
+.env.local
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+
+# Real publisher XML files (too large/sensitive)
+samples/*.xml
+!samples/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

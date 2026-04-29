@@ -1,0 +1,16 @@
+{% if books %}
+{% for book in books %}
+<tr>
+    <td><a href="{{ url_for('books.book_detail', book_id=book.id) }}">{{ book.id }}</a></td>
+    <td>{{ book.isbn13 or '—' }}</td>
+    <td><a href="{{ url_for('books.book_detail', book_id=book.id) }}">{{ book.title | truncate(60, True) }}</a></td>
+    <td>{{ (book.publisher_name or '—') | truncate(40, True) }}</td>
+    <td>{{ book.publication_date or '—' }}</td>
+    <td>{{ book.product_form or book.product_form_code or '—' }}</td>
+    <td>{{ book.publishing_status or book.publishing_status_code or '—' }}</td>
+    <td>{{ book.updated_at }}</td>
+</tr>
+{% endfor %}
+{% else %}
+<tr><td colspan="8" class="text-center text-muted">No books found.</td></tr>
+{% endif %}

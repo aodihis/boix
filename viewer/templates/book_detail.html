@@ -1,0 +1,365 @@
+{% extends "base.html" %}
+
+{% block title %}{{ book.title }} - ONIX Book Viewer{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('books.list_books_view') }}" class="btn btn-secondary btn-sm">← Back to list</a>
+</div>
+
+<h1>{{ book.title }}</h1>
+
+{% if book.subtitle %}
+<p class="lead">{{ book.subtitle }}</p>
+{% endif %}
+
+<!-- Identity -->
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">Identity</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Book ID:</strong> {{ book.id }}</p>
+                <p><strong>Record Reference:</strong> {{ book.record_reference or '—' }}</p>
+                <p><strong>ISBN-13:</strong> {{ book.isbn13 or '—' }}</p>
+                <p><strong>ISBN-10:</strong> {{ book.isbn10 or '—' }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>GTIN-13:</strong> {{ book.gtin13 or '—' }}</p>
+                <p><strong>Notification Type:</strong> {{ book.notification_type_code or '—' }}</p>
+            </div>
+        </div>
+        {% if book.identifiers %}
+        <p><strong>All Identifiers:</strong></p>
+        <ul class="list-unstyled">
+            {% for identifier in book.identifiers %}
+            <li>{{ identifier.type }}: {{ identifier.value }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Title -->
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">Title</h5>
+    </div>
+    <div class="card-body">
+        <p><strong>Title:</strong> {{ book.title or '—' }}</p>
+        {% if book.subtitle %}<p><strong>Subtitle:</strong> {{ book.subtitle }}</p>{% endif %}
+        {% if book.full_title %}<p><strong>Full Title:</strong> {{ book.full_title }}</p>{% endif %}
+        {% if book.series_name %}<p><strong>Series:</strong> {{ book.series_name }}{% if book.series_number %} #{{ book.series_number }}{% endif %}</p>{% endif %}
+    </div>
+</div>
+
+<!-- Format -->
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">Format</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Product Form:</strong> {{ book.product_form or '—' }}{% if book.product_form_code %} ({{ book.product_form_code }}){% endif %}</p>
+                <p><strong>Edition Number:</strong> {{ book.edition_number or '—' }}</p>
+                <p><strong>Edition Statement:</strong> {{ book.edition_statement or '—' }}</p>
+                <p><strong>Page Count:</strong> {{ book.page_count or '—' }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Dimensions:</strong>
+                    {% if book.height_mm or book.width_mm or book.thickness_mm %}
+                        {{ book.height_mm or '—' }} × {{ book.width_mm or '—' }} × {{ book.thickness_mm or '—' }} mm
+                    {% else %}
+                        —
+                    {% endif %}
+                </p>
+                <p><strong>Weight:</strong> {{ book.weight_g or '—' }}{% if book.weight_g %} g{% endif %}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Publishing -->
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">Publishing</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Publisher:</strong> {{ book.publisher_name or '—' }}</p>
+                <p><strong>Imprint:</strong> {{ book.imprint_name or '—' }}</p>
+                <p><strong>City:</strong> {{ book.city_of_publication or '—' }}</p>
+                <p><strong>Country:</strong> {{ book.country_of_publication or '—' }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Publishing Status:</strong> {{ book.publishing_status or '—' }}{% if book.publishing_status_code %} ({{ book.publishing_status_code }}){% endif %}</p>
+                <p><strong>Publication Date:</strong> {{ book.publication_date or '—' }}</p>
+                <p><strong>Availability:</strong> {{ book.availability or '—' }}{% if book.availability_code %} ({{ book.availability_code }}){% endif %}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Language -->
+{% if book.language_code or book.original_language_code or book.languages %}
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">Language</h5>
+    </div>
+    <div class="card-body">
+        <p><strong>Language:</strong> {{ book.language_code or '—' }}</p>
+        <p><strong>Original Language:</strong> {{ book.original_language_code or '—' }}</p>
+        {% if book.languages %}
+        <p><strong>All Languages:</strong></p>
+        <ul class="list-unstyled">
+            {% for lang in book.languages %}
+            <li>{{ lang.language_code }}{% if lang.role %} ({{ lang.role }}){% endif %}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Rights -->
+{% if book.rights_countries_included or book.rights_countries_excluded or book.rights_regions %}
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">Rights</h5>
+    </div>
+    <div class="card-body">
+        <p><strong>Countries Included:</strong> {{ book.rights_countries_included or '—' }}</p>
+        <p><strong>Countries Excluded:</strong> {{ book.rights_countries_excluded or '—' }}</p>
+        <p><strong>Regions:</strong> {{ book.rights_regions or '—' }}</p>
+    </div>
+</div>
+{% endif %}
+
+<!-- Contributors -->
+{% if contributors %}
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">Contributors</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-sm table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>Sequence</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Inverted Name</th>
+                    <th>Biographical Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contrib in contributors %}
+                <tr>
+                    <td>{{ contrib.sequence_number or '—' }}</td>
+                    <td>{{ contrib.display_name or '—' }}</td>
+                    <td>{{ contrib.role or '—' }}</td>
+                    <td>{{ contrib.inverted_name or '—' }}</td>
+                    <td>
+                        {% if contrib.biographical_note %}
+                            {{ contrib.biographical_note | truncate(300, True) }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+<!-- Subjects -->
+{% if subjects %}
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">Subjects</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-sm table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th></th>
+                    <th>Scheme</th>
+                    <th>Code</th>
+                    <th>Subject Heading</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subj in subjects %}
+                <tr>
+                    <td>
+                        {% if subj.is_main_subject %}
+                        <span class="badge bg-primary">Main</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ subj.scheme_name or '—' }}</td>
+                    <td>{{ subj.subject_code or '—' }}</td>
+                    <td>{{ subj.subject_heading_text or '—' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+<!-- Prices -->
+{% if prices %}
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">Prices</h5>
+    </div>
+    <div class="card-body">
+        {% set suppliers = {} %}
+        {% for price in prices %}
+            {% if price.supplier_name not in suppliers %}
+                {% set _ = suppliers.update({price.supplier_name: []}) %}
+            {% endif %}
+            {% set _ = suppliers[price.supplier_name].append(price) %}
+        {% endfor %}
+
+        {% for supplier_name, supplier_prices in suppliers.items() %}
+        <h6>{{ supplier_name or 'Unspecified Supplier' }}</h6>
+        <table class="table table-sm table-striped mb-3">
+            <thead class="table-light">
+                <tr>
+                    <th>Price</th>
+                    <th>Currency</th>
+                    <th>Type</th>
+                    <th>Availability</th>
+                    <th>Countries</th>
+                    <th>Discount %</th>
+                    <th>Tax %</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for price in supplier_prices %}
+                <tr>
+                    <td>{{ price.price_amount or '—' }}</td>
+                    <td>{{ price.currency_code or '—' }}</td>
+                    <td>{{ price.price_type_code or '—' }}</td>
+                    <td>{{ price.availability or '—' }}</td>
+                    <td>{{ price.countries_included or '—' }}</td>
+                    <td>{{ price.discount_percent or '—' }}</td>
+                    <td>{{ price.tax_rate_percent or '—' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Media -->
+{% if book.media %}
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">Media</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            {% for media in book.media %}
+            <div class="col-md-3 mb-3">
+                {% if media.type and media.type.lower() in ['cover', 'image', 'jpg', 'jpeg', 'png'] %}
+                    <div class="text-center">
+                        <img src="{{ media.url }}" alt="{{ media.caption or 'Media' }}" style="max-width: 120px; max-height: 180px;">
+                        {% if media.caption %}<p class="small mt-2">{{ media.caption }}</p>{% endif %}
+                    </div>
+                {% else %}
+                    <p><a href="{{ media.url }}" target="_blank">{{ media.type or 'Media' }}</a></p>
+                    {% if media.caption %}<small class="text-muted">{{ media.caption }}</small>{% endif %}
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Texts -->
+{% if book.texts %}
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">Texts</h5>
+    </div>
+    <div class="card-body">
+        <div class="accordion">
+            {% for text in book.texts %}
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#text-{{ loop.index }}">
+                        {{ text.text_type or 'Text' }}
+                    </button>
+                </h2>
+                <div id="text-{{ loop.index }}" class="accordion-collapse collapse" data-bs-parent=".accordion">
+                    <div class="accordion-body">
+                        <pre class="mb-0">{{ text.content }}</pre>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Push Queue Status -->
+{% if push_status %}
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">Push Queue Status</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-sm table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>Target</th>
+                    <th>Pending</th>
+                    <th>Sent</th>
+                    <th>Failed</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set targets_found = {} %}
+                {% for status in push_status %}
+                    {% set _ = targets_found.update({status.target: True}) %}
+                {% endfor %}
+
+                {% for target in ['filemaker', 'craftcms'] %}
+                {% set pending = 0 %}
+                {% set sent = 0 %}
+                {% set failed = 0 %}
+                {% for status in push_status %}
+                    {% if status.target == target %}
+                        {% if status.status == 'pending' %}{% set pending = status.count %}{% endif %}
+                        {% if status.status == 'sent' %}{% set sent = status.count %}{% endif %}
+                        {% if status.status == 'failed' %}{% set failed = status.count %}{% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% if pending or sent or failed %}
+                <tr>
+                    <td>{{ target }}</td>
+                    <td>{{ pending }}</td>
+                    <td>{{ sent }}</td>
+                    <td>{{ failed }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

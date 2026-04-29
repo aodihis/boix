@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ONIXMessage release="3.0" xmlns="http://ns.editeur.org/onix/3.0/reference">
+  <Header>
+    <Sender>
+      <SenderName>Test Publisher</SenderName>
+      <EmailAddress>feed@testpublisher.com</EmailAddress>
+    </Sender>
+    <SentDateTime>20240116T090000</SentDateTime>
+  </Header>
+
+  <!-- Block update: only ProductSupply, no DescriptiveDetail/CollateralDetail/PublishingDetail -->
+  <Product>
+    <RecordReference>TEST-BOOK-001</RecordReference>
+    <NotificationType>04</NotificationType>
+    <ProductIdentifier>
+      <ProductIDType>15</ProductIDType>
+      <IDValue>9780000000001</IDValue>
+    </ProductIdentifier>
+    <ProductSupply>
+      <SupplyDetail>
+        <Supplier>
+          <SupplierRole>01</SupplierRole>
+          <SupplierName>Test Distributor</SupplierName>
+        </Supplier>
+        <ProductAvailability>20</ProductAvailability>
+        <Price>
+          <PriceType>01</PriceType>
+          <PriceAmount>14.99</PriceAmount>
+          <CurrencyCode>USD</CurrencyCode>
+        </Price>
+      </SupplyDetail>
+    </ProductSupply>
+  </Product>
+
+</ONIXMessage>

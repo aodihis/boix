@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Error - ONIX Book Viewer{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Error {{ status }}</h4>
+            <p>{{ message }}</p>
+            <hr>
+            <p class="mb-0"><a href="{{ url_for('books.list_books_view') }}" class="alert-link">← Back to book list</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

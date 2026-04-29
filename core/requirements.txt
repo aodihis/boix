@@ -1,0 +1,7 @@
+lxml>=4.9
+psycopg2-binary>=2.9
+requests>=2.31
+python-dotenv>=1.0
+apscheduler>=3.10
+pytest>=8.0
+pytest-cov>=5.0

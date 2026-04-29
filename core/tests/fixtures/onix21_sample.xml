@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ONIXMessage release="2.1">
+  <Header>
+    <FromCompany>Test Publisher</FromCompany>
+    <FromEmail>feed@testpublisher.com</FromEmail>
+    <SentDate>20240115</SentDate>
+  </Header>
+
+  <Product>
+    <RecordReference>TEST-BOOK-001</RecordReference>
+    <NotificationType>03</NotificationType>
+    <ProductIdentifier>
+      <ProductIDType>15</ProductIDType>
+      <IDValue>9780000000001</IDValue>
+    </ProductIdentifier>
+    <Title>
+      <TitleType>01</TitleType>
+      <TitleText>The Great Test Book</TitleText>
+      <Subtitle>A Complete Guide to Testing</Subtitle>
+    </Title>
+    <Contributor>
+      <SequenceNumber>1</SequenceNumber>
+      <ContributorRole>A01</ContributorRole>
+      <NamesBeforeKey>Jane</NamesBeforeKey>
+      <KeyNames>Smith</KeyNames>
+      <PersonNameInverted>Smith, Jane</PersonNameInverted>
+    </Contributor>
+    <BASICMainSubject>FIC000000</BASICMainSubject>
+    <Publisher>
+      <PublisherName>Test Publishing House</PublisherName>
+    </Publisher>
+    <PublicationDate>20240301</PublicationDate>
+    <SupplyDetail>
+      <SupplierName>Test Distributor</SupplierName>
+      <SupplierRole>01</SupplierRole>
+      <ProductAvailability>20</ProductAvailability>
+      <Price>
+        <PriceTypeCode>01</PriceTypeCode>
+        <PriceAmount>24.99</PriceAmount>
+        <CurrencyCode>USD</CurrencyCode>
+      </Price>
+    </SupplyDetail>
+  </Product>
+
+</ONIXMessage>
